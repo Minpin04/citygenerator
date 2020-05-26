@@ -35,8 +35,15 @@ def generate(config_path, show_city=False, show_time=False, show_stats=False):
     del polys[0] # We delete the first polygon as this corresponds to the outer area.
     # Step 3: Determine land usages.
     land_usages = land_usage.get_land_usage(polys, config)
+
+    major_roads = [];
+
+    for road in road_network:
+        if(road.is_minor_road == False):
+            major_roads.append(road)
+
     # Step 4: Dump to .json.
-    city_to_json(road_network, list(vertex_dict.keys()), land_usages)
+    city_to_json(road_network, major_roads ,list(vertex_dict.keys()), land_usages)
 
     if show_time:
         print('Time:', time.process_time() - t)
